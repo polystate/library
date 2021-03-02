@@ -1,0 +1,61 @@
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+table{
+    margin-top: 2.75rem;
+    border: 1px solid black;
+    width: 40rem;
+    min-width: 40rem;
+}
+
+th, td{
+    border: 1px solid lightgrey;
+}
+
+#new-book{
+    margin-top: 2rem;
+    width: 25rem;
+    height: 5rem;
+    border: 1px solid black;
+    background: lightcyan;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#new-book::active{
+    background: white;
+    border: none;
+}
+
+#submit-book{
+    margin-top: 0.6rem;
+    background: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+#submit-book:hover{
+    background: lightcyan;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid black;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+
+
+/* .delete{
+    display: inline-block;
+} */
