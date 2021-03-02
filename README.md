@@ -1,1 +1,3 @@
 3/2/2021 -  Basic functionality working, no design yet. Can add books, remove them, etc. and a form pops up after clicking the button. Next need to take care of situation where if two books have the same characteristics, it won't add a copy to the table/array. Also need to work on a "Did you read the book" toggle switch.
+
+3/3/2021 - Duplicate copy books for array solved. However, problem still with toggle read on two identical books that needs to be fixed. Some more methods and code added to constructor.

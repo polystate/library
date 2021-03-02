@@ -1,26 +1,33 @@
 let myLibrary = [];
 let libraryTable = document.querySelector("table");
 let formActive = false;
-let readBook = false;
+let bookID = 0;
+
 
 //Books on intital load
-let harryPotter = new Book("Harry Potter","J.K. Rowling", 672);
-let theHobbit = new Book("The Hobbit","J.R.R Tolkien", 822);
-let theStormlightArchive = new Book("The Way of Kings", "Brandon Sanderson", 1284);
+let harryPotter = new Book("Harry Potter","J.K. Rowling", 672, false);
+let theHobbit = new Book("The Hobbit","J.R.R Tolkien", 822, false);
+let theStormlightArchive = new Book("The Way of Kings", "Brandon Sanderson", 1284, false);
 myLibrary.push(harryPotter,theHobbit,theStormlightArchive);
 displayBooks();
 
 //Prototype Book
-function Book(title,author,numPages,bookRead){
+function Book(title,author,numPages,isBookRead){
     //Constructor
     this.title = title;
     this.author = author;
     this.numPages = numPages;
+    this.isBookRead = isBookRead;
     this.bookRead = "No";
 
     //Methods
     this.info = function logInfo(){
         return `${this.title} by ${this.author}, ${this.numPages} pages, ${this.bookRead}`
+    }
+    this.createID = function createNewID(){
+        console.log(`${this.title}'s ID is ${bookID}`);
+        bookID++;
+        return `${this.currentID = bookID-1}`;
     }
 }
 
@@ -29,10 +36,9 @@ function addBookToLibrary(){
     newTitle = document.getElementById("new-title").value;
     newAuthor = document.getElementById("new-author").value;
     newPages = document.getElementById("new-pages").value;
-    newQueryRead = document.getElementById("new-query-read").value;
     formActive = false;
     userForm.remove();
-    newBook = new Book(newTitle,newAuthor,newPages,newQueryRead);
+    newBook = new Book(newTitle,newAuthor,newPages,false);
     myLibrary.push(newBook);
     tableRow = document.createElement("tr");
     libraryTable.appendChild(tableRow);
@@ -40,7 +46,9 @@ function addBookToLibrary(){
     displayDataRow(myLibrary.length-1,"author");
     displayDataRow(myLibrary.length-1,"numPages");
     displayDataRow(myLibrary.length-1,"bookRead");
-    createDeleteButtons(myLibrary.length-1);
+    createReadButtons();
+    createDeleteButtons();
+    myLibrary[myLibrary.length-1].createID();
 }
 
 function createForm(){
@@ -82,7 +90,9 @@ function displayBooks(){
         displayDataRow(book, "author");
         displayDataRow(book, "numPages");
         displayDataRow(book, "bookRead");  
-        createDeleteButtons(book); 
+        createReadButtons();
+        createDeleteButtons();
+        myLibrary[book].createID(); 
     }
 }
 
@@ -94,16 +104,41 @@ function displayDataRow(book,tablehead){
     tableRow.setAttribute("class", "table-row")
 }
 
-function createDeleteButtons(book){
-    createButton = document.createElement("button");
-    createButton.innerText = "Delete"; 
-    createButton.addEventListener('click',function(){
+function createDeleteButtons(){
+    deletebutton = document.createElement("button");
+    deletebutton.innerText = "Delete"; 
+    deletebutton.addEventListener('click',function(){
         selectedBook = this.parentElement.id;
-        myLibrary = myLibrary.filter(x => x.title !== selectedBook);
+        index = myLibrary.findIndex(x => x.title === selectedBook);
+        selectedID = myLibrary[index].currentID;
+        console.log(selectedID);
+        myLibrary = myLibrary.filter(x => x.currentID !== selectedID);
+        // myLibrary = myLibrary.filter(x => x.title !== selectedBook);
         bookTableRow = document.getElementById(selectedBook); 
         bookTableRow.remove();
     })
-    tableRow.appendChild(createButton);
+    tableRow.appendChild(deletebutton);
+}
+
+function createReadButtons(){
+    readbutton = document.createElement("button");
+    readbutton.innerText = "I read it"; 
+    readbutton.addEventListener('click',function(){
+        selectedBook = this.parentElement.id;
+        index = myLibrary.findIndex(x => x.title === selectedBook);
+        
+        if(!myLibrary[index].isBookRead){
+            this.parentElement.childNodes[this.parentElement.childNodes.length-3].textContent = "Yes";
+            myLibrary[index].bookRead = "Yes";
+            this.innerText = "Not read"
+        } else {
+            this.parentElement.childNodes[this.parentElement.childNodes.length-3].textContent = "No";
+            myLibrary[index].bookRead = "No";
+            this.innerText = "I read it"
+        }
+        myLibrary[index].isBookRead = !myLibrary[index].isBookRead;
+    })
+    tableRow.appendChild(readbutton);
 }
 
 
