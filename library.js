@@ -40,6 +40,7 @@ function addBookToLibrary(){
     userForm.remove();
     newBook = new Book(newTitle,newAuthor,newPages,false);
     myLibrary.push(newBook);
+    myLibrary[myLibrary.length-1].createID();
     tableRow = document.createElement("tr");
     libraryTable.appendChild(tableRow);
     displayDataRow(myLibrary.length-1,"title");
@@ -48,7 +49,6 @@ function addBookToLibrary(){
     displayDataRow(myLibrary.length-1,"bookRead");
     createReadButtons();
     createDeleteButtons();
-    myLibrary[myLibrary.length-1].createID();
 }
 
 function createForm(){
@@ -62,8 +62,14 @@ function createForm(){
         submit.setAttribute("type", "submit");
         submit.setAttribute("value", "Submit Book");
         submit.setAttribute("id", "submit-book");
-        submit.setAttribute("onclick","addBookToLibrary()")
+        submit.setAttribute("onclick","addBookToLibrary()");
+        hide = document.createElement("input");
+        hide.setAttribute("type","button");
+        hide.setAttribute("id","hide-button");
+        hide.setAttribute("value", "Hide");
+        hide.setAttribute("onclick", "hideForm()");
         userForm.appendChild(submit);
+        userForm.appendChild(hide);
         body = document.querySelector("body");
         body.appendChild(userForm);
         formActive = true;
@@ -84,6 +90,7 @@ function createFormSection(labelhead,placeholder,id){
 
 function displayBooks(){
     for(let book in myLibrary){
+        myLibrary[book].createID(); 
         tableRow = document.createElement("tr");
         libraryTable.appendChild(tableRow);
         displayDataRow(book,"title");
@@ -92,7 +99,6 @@ function displayBooks(){
         displayDataRow(book, "bookRead");  
         createReadButtons();
         createDeleteButtons();
-        myLibrary[book].createID(); 
     }
 }
 
@@ -100,20 +106,18 @@ function displayDataRow(book,tablehead){
     tableData = document.createElement("td");
     tableData.textContent = myLibrary[book][tablehead];
     tableRow.appendChild(tableData);
-    tableRow.setAttribute("id",`${myLibrary[book].title}`)
+    tableRow.setAttribute("id",`${myLibrary[book].currentID}`)
     tableRow.setAttribute("class", "table-row")
 }
 
 function createDeleteButtons(){
     deletebutton = document.createElement("button");
+    deletebutton.setAttribute("class", "actionbuttons")
     deletebutton.innerText = "Delete"; 
     deletebutton.addEventListener('click',function(){
         selectedBook = this.parentElement.id;
-        index = myLibrary.findIndex(x => x.title === selectedBook);
-        selectedID = myLibrary[index].currentID;
-        console.log(selectedID);
-        myLibrary = myLibrary.filter(x => x.currentID !== selectedID);
-        // myLibrary = myLibrary.filter(x => x.title !== selectedBook);
+        index = myLibrary.findIndex(x => x.currentID == selectedBook);
+        myLibrary = myLibrary.filter(x => x.currentID != selectedBook);
         bookTableRow = document.getElementById(selectedBook); 
         bookTableRow.remove();
     })
@@ -122,10 +126,11 @@ function createDeleteButtons(){
 
 function createReadButtons(){
     readbutton = document.createElement("button");
+    readbutton.setAttribute("class", "actionbuttons");
     readbutton.innerText = "I read it"; 
     readbutton.addEventListener('click',function(){
         selectedBook = this.parentElement.id;
-        index = myLibrary.findIndex(x => x.title === selectedBook);
+        index = myLibrary.findIndex(x => x.currentID == selectedBook);
         
         if(!myLibrary[index].isBookRead){
             this.parentElement.childNodes[this.parentElement.childNodes.length-3].textContent = "Yes";
@@ -142,7 +147,10 @@ function createReadButtons(){
 }
 
 
-
+function hideForm(){
+    formActive = false;
+    userForm.remove();
+}
 
 
 
