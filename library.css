@@ -4,35 +4,39 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgb(221, 251, 253);
     background: white;
 }
 
 table{
-    margin-top: 2.75rem;
+    margin-top: 1rem;
     border: 1px solid lightgrey;
     width: 50rem;
     min-width: 50rem;
     border-collapse: collapse;
-    background: rgba(255,255,255,0.9);
+    background: rgba(250, 250, 210, 0.308);
 }
 
 th, td{
     border: 1px solid lightgrey;
     text-align: center;
     padding: 0.5rem;
-    /* border-collapse: collapse; */
-    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
+h1{
+    font-family: 'Gentium Book Basic',sans-serif,'Times New Roman', Times, serif;
+    font-size: 3.5rem;
+}
 
+label{
+    text-align: center;
+}
 
 #new-book{
     margin-top: 2rem;
     width: 25rem;
     height: 5rem;
     border: 1px solid black;
-    background: lightcyan;
+    background: rgba(224, 255, 255, 0.774);
     cursor: pointer;
     font-size: 1.5rem;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -43,17 +47,23 @@ th, td{
     border: none;
 }
 
+#new-book:hover{
+    background: rgb(224, 248, 255);
+    font-weight: bolder;
+}
+
 #submit-book{
     margin-top: 0.6rem;
     background: white;
     font-family: Georgia, 'Times New Roman', Times, serif;
     cursor: pointer;
     border: 1px solid black;
+    
 }
 
 #submit-book:hover{
-    background: lightcyan;
-
+    background: rgba(224, 255, 255, 0.774);
+    font-weight: bolder;
 }
 
 #hide-button{
@@ -67,6 +77,27 @@ th, td{
     letter-spacing: 1.5px;
 }
 
+#library-card{
+    font-family: 'Gentium Book Basic',sans-serif,'Times New Roman', Times, serif;
+    text-align: center;
+    margin-top: 0.25rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid black;
+    border-top: 1px solid white;
+    padding: 0.5rem;
+    background: lightyellow;
+    border-radius: 2rem;
+}
+
+#id-text{
+    font-size: 0.75rem;
+    margin: 0;
+    padding: 0;
+    font-family:monospace;
+    /* margin-left: 25%; */
+    background: whitesmoke;
+}
+
 form{
     display: flex;
     flex-direction: column;
@@ -78,16 +109,38 @@ form{
 }
 
 .actionbuttons{
-    height: 2.5rem;
+    height: 3rem;
     border: none;
     cursor: pointer;
     width: 50%;
-    
-    
+    background: lightyellow;
+    border-right: 0.5px solid lightgrey; 
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
+    font-size: 1rem;
 }
 
+button, input{
+    outline: none;
+}
 
+.title{
+    font-family: 'Gentium Book Basic', Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+}
 
-/* .delete{
-    display: inline-block;
-} */
+.author{
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.numPages{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.bookRead{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.input-fields{
+    color: darkgrey;
+}
+

@@ -2,4 +2,4 @@
 
 3/3/2021 - Duplicate copy books for array solved. However, problem still with toggle read on two identical books that needs to be fixed. Some more methods and code added to constructor.
 
-3/4/2021 - All books created have a unique ID, which stops any problems with deleting duplicates in arrays and the table rows. Table css adjusted a bit. Buttons to fit Action side with Action header added. 'Hide' button added at bottom of form to disable form popup.
+3/4/2021 - All books created have a unique ID, which stops any problems with deleting duplicates in arrays and the table rows. Table css adjusted a bit. Buttons to fit Action side with Action header added. 'Hide' button added at bottom of form to disable form popup. Design also improved with ID and Library Card looking more interesting.
