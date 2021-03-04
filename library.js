@@ -1,7 +1,8 @@
 let myLibrary = [];
 let libraryTable = document.querySelector("table");
 let formActive = false;
-let charLimit = 35;
+let titleLimit = 35;
+let authorLimit = 25;
 let bookID = 0;
 
 
@@ -40,10 +41,16 @@ function addBookToLibrary(){
     if(newPages[0] == 0) newPages = newPages.substring(1);
     newTitle = document.getElementById("new-title").value;
     if(newTitle === "Enter a title") newTitle = "Unknown";
-    if(newTitle.length > charLimit) newTitle = newTitle.substr(0,charLimit);
+    if(newTitle.length > titleLimit){
+        newTitle = newTitle.substr(0,titleLimit);
+    } 
+    newTitle = letterCase(newTitle);
     newAuthor = document.getElementById("new-author").value;
     if(newAuthor === "Enter an author") newAuthor = "Unknown";
-    if(newAuthor.length > charLimit) newAuthor = newAuthor.substr(0,charLimit);
+    if(newAuthor.length > authorLimit){
+        newAuthor = newAuthor.substr(0,authorLimit);
+    } 
+    newAuthor = letterCase(newAuthor);
     formActive = false;
     userForm.remove();
     newBook = new Book(newTitle,newAuthor,newPages,false);
@@ -185,6 +192,18 @@ function generateRandomID(amount){
         randomArr.push(Math.round(Math.random()*amount-1));
     }
     return randomArr.join("");
+}
+
+function letterCase(str){
+     str = str.toLowerCase();
+     str = str.split("");
+     str[0] = str[0].toUpperCase();
+     for(let i = 0; i < str.length; i++){
+         if(str[i] == false){
+             str[i+1] = str[i+1].toUpperCase();
+         }
+     }
+     return str.join("");
 }
 
 
