@@ -4,4 +4,4 @@
 
 3/4/2021 - All books created have a unique ID, which stops any problems with deleting duplicates in arrays and the table rows. Table css adjusted a bit. Buttons to fit Action side with Action header added. 'Hide' button added at bottom of form to disable form popup. Design also improved with ID and Library Card looking more interesting.
 
-3/5/2021 - Put char limit on title and book to avoid button bug. Finishing design touches on library card. Table made wider.
+3/5/2021 - Put char limit on title and book to avoid button bug. Finishing design touches on library card. Table made wider. localStorage now working.

@@ -13,6 +13,7 @@ let theStormlightArchive = new Book("The Way of Kings", "Brandon Sanderson", 128
 myLibrary.push(harryPotter,theHobbit,theStormlightArchive);
 displayBooks();
 
+
 //Prototype Book
 function Book(title,author,numPages,isBookRead){
     //Constructor
@@ -64,7 +65,7 @@ function addBookToLibrary(){
     displayDataRow(myLibrary.length-1,"bookRead");
     createReadButtons();
     createDeleteButtons();
-
+    localStorage.setItem('storedBooks',JSON.stringify(myLibrary));
 }
 
 function createForm(){
@@ -118,8 +119,9 @@ function createFormSection(labelhead,placeholder,id,header){
 }
 
 function displayBooks(){
+    retrieveStorage();
     for(let book in myLibrary){
-        myLibrary[book].createID(); 
+        myLibrary[book].createID();
         tableRow = document.createElement("tr");
         libraryTable.appendChild(tableRow);
         displayDataRow(book,"title");
@@ -150,6 +152,7 @@ function createDeleteButtons(){
         myLibrary = myLibrary.filter(x => x.currentID != selectedBook);
         bookTableRow = document.getElementById(selectedBook); 
         bookTableRow.remove();
+        localStorage.setItem('storedBooks',JSON.stringify(myLibrary));
     })
     
     tableRow.appendChild(deletebutton);
@@ -202,6 +205,9 @@ function letterCase(str){
          if(str[i] == false){
              str[i+1] = str[i+1].toUpperCase();
          }
+        //  if(str[i] == false && str[i-1] == false){
+        //      str.splice(i,1);
+        //  }
      }
      return str.join("");
 }
@@ -230,10 +236,38 @@ function resetAllActionHeights(){
     }
 }
 
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
 
-
-//libraryTable.childNodes[4].childNodes[4].style.height = `${findBiggestTableData()}px`//
-
-
+function retrieveStorage(){
+    myLibrary = [];
+    newArr = JSON.parse(localStorage.getItem('storedBooks'));
+    for(let i = 0; i < newArr.length; i++){
+        myLibrary.push(new Book(newArr[i].title,newArr[i].author,newArr[i].numPages,newArr[i].isBookRead))
+    }
+    return myLibrary;
+}
 
 
