@@ -1,6 +1,7 @@
 let myLibrary = [];
 let libraryTable = document.querySelector("table");
 let formActive = false;
+let charLimit = 35;
 let bookID = 0;
 
 
@@ -25,7 +26,6 @@ function Book(title,author,numPages,isBookRead){
         return `${this.title} by ${this.author}, ${this.numPages} pages, ${this.bookRead}`
     }
     this.createID = function createNewID(){
-        console.log(`${this.title}'s ID is ${bookID}`);
         bookID++;
         return `${this.currentID = bookID-1}`;
     }
@@ -33,9 +33,17 @@ function Book(title,author,numPages,isBookRead){
 
 //Functions
 function addBookToLibrary(){
-    newTitle = document.getElementById("new-title").value;
-    newAuthor = document.getElementById("new-author").value;
     newPages = document.getElementById("new-pages").value;
+    newPages = newPages.replace(/[^0-9]+/ig, "");
+    if(newPages === "") newPages = 0;
+    if(newPages > 9999) newPages = 9999;
+    if(newPages[0] == 0) newPages = newPages.substring(1);
+    newTitle = document.getElementById("new-title").value;
+    if(newTitle === "Enter a title") newTitle = "Unknown";
+    if(newTitle.length > charLimit) newTitle = newTitle.substr(0,charLimit);
+    newAuthor = document.getElementById("new-author").value;
+    if(newAuthor === "Enter an author") newAuthor = "Unknown";
+    if(newAuthor.length > charLimit) newAuthor = newAuthor.substr(0,charLimit);
     formActive = false;
     userForm.remove();
     newBook = new Book(newTitle,newAuthor,newPages,false);
@@ -49,6 +57,7 @@ function addBookToLibrary(){
     displayDataRow(myLibrary.length-1,"bookRead");
     createReadButtons();
     createDeleteButtons();
+
 }
 
 function createForm(){
@@ -57,7 +66,7 @@ function createForm(){
         createFormSection(undefined,undefined,undefined,true);
         createFormSection("Book Title:","Enter a title","new-title");
         createFormSection("Author:","Enter an author","new-author");
-        createFormSection("Number of Pages:","Enter amount of pages","new-pages");
+        createFormSection("Number of Pages:","0","new-pages");
         createFormSection("Book Read?","Have you read it?","new-query-read");
         submit = document.createElement("input");
         submit.setAttribute("type", "submit");
@@ -95,7 +104,7 @@ function createFormSection(labelhead,placeholder,id,header){
     input.setAttribute("type", "text");
     input.setAttribute("value", `${placeholder}`);
     input.setAttribute("id", `${id}`);
-    input.setAttribute("class", "input-fields")
+    input.setAttribute("class", "input-fields");
     label.innerHTML = `${labelhead}`;
     userForm.appendChild(label);
     userForm.appendChild(input);
@@ -126,8 +135,7 @@ function displayDataRow(book,tablehead){
 
 function createDeleteButtons(){
     deletebutton = document.createElement("button");
-    deletebutton.setAttribute("class", "actionbuttons")
-    // deletebutton.style = "font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 1rem;"
+    deletebutton.setAttribute("class", "actionbuttons");
     deletebutton.innerText = "Delete"; 
     deletebutton.addEventListener('click',function(){
         selectedBook = this.parentElement.id;
@@ -136,13 +144,14 @@ function createDeleteButtons(){
         bookTableRow = document.getElementById(selectedBook); 
         bookTableRow.remove();
     })
+    
     tableRow.appendChild(deletebutton);
+    
 }
 
 function createReadButtons(){
     readbutton = document.createElement("button");
     readbutton.setAttribute("class", "actionbuttons");
-    
     readbutton.innerText = "I read it"; 
     readbutton.addEventListener('click',function(){
         selectedBook = this.parentElement.id;
@@ -151,15 +160,17 @@ function createReadButtons(){
         if(!myLibrary[index].isBookRead){
             this.parentElement.childNodes[this.parentElement.childNodes.length-3].textContent = "Yes";
             myLibrary[index].bookRead = "Yes";
-            this.innerText = "Not read"
+            this.innerText = "Not read";
         } else {
             this.parentElement.childNodes[this.parentElement.childNodes.length-3].textContent = "No";
             myLibrary[index].bookRead = "No";
-            this.innerText = "I read it"
+            this.innerText = "I read it";
         }
         myLibrary[index].isBookRead = !myLibrary[index].isBookRead;
     })
+    
     tableRow.appendChild(readbutton);
+    
 }
 
 function hideForm(){
@@ -176,6 +187,33 @@ function generateRandomID(amount){
     return randomArr.join("");
 }
 
+
+function findBiggestTableData(){
+    allTDs = document.querySelectorAll("td");
+    allTDs = Array.from(allTDs);
+    heightTDs = [];
+    for(let i = 0; i < allTDs.length; i++){
+        heightTDs.push(allTDs[i].offsetHeight);
+    }
+    return Math.max(...heightTDs);
+}
+
+function findTableRowHeight(elem){
+    return elem.parentElement.offsetHeight;
+}
+
+function resetAllActionHeights(){
+    actionbuttons = document.querySelectorAll(".actionbuttons");
+    actionbuttons = Array.from(actionbuttons);
+    for(let btn in actionbuttons){
+        actionbuttons[btn].style = `height: ${findTableRowHeight(actionbuttons[btn])}`;
+        console.log(getComputedStyle(actionbuttons[btn]).padding);
+    }
+}
+
+
+
+//libraryTable.childNodes[4].childNodes[4].style.height = `${findBiggestTableData()}px`//
 
 
 
