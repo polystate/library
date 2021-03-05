@@ -5,6 +5,7 @@ body{
     flex-direction: column;
     align-items: center;
     background: white;
+    
 }
 
 table{
@@ -87,6 +88,7 @@ label{
     padding: 0.5rem;
     background: lightyellow;
     border-radius: 2rem;
+
 }
 
 #id-text{
@@ -98,6 +100,22 @@ label{
     background: whitesmoke;
 }
 
+#popup{
+    background: lightyellow;
+    position: absolute;
+    size: 15rem;
+    /* border: 1px solid black; */
+    font-size: 2rem;
+    width: 40%;
+    
+    padding: 2rem;
+    border-radius: 5px;
+}
+
+#onLoadForm{
+    margin-top: 20rem;
+}
+
 form{
     display: flex;
     flex-direction: column;
@@ -106,6 +124,7 @@ form{
     padding: 1rem;
     margin-top: 2rem;
     background: rgba(255,255,255,0.9);
+    
 }
 
 .actionbuttons{
@@ -145,6 +164,46 @@ button, input{
 }
 
 .input-fields{
-    color: darkgrey;
+    padding: 0.125rem;
+    color: black;
+    /* font-family: 'Gentium Book Basic',sans-serif,'Times New Roman', Times, serif; */
+}
+
+.tooltiptext{
+    /* visibility: hidden; */
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    font-size: 20rem;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+
+::placeholder{
+    padding: 0.125rem;
+    color: grey;
+    font-family: sans-serif;
+}
+
+@media (max-width: 1450px){
+    #popup{
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 900px){
+    #popup{
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 760px){
+    #popup{
+        font-size: 1.27rem;
+    }
 }
 

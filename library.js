@@ -1,3 +1,4 @@
+//Global Variables
 let myLibrary = [];
 let libraryTable = document.querySelector("table");
 let formActive = false;
@@ -7,11 +8,13 @@ let bookID = 0;
 
 
 //Books on intital load
-let harryPotter = new Book("Harry Potter","J.K. Rowling", 672, false);
-let theHobbit = new Book("The Hobbit","J.R.R Tolkien", 822, false);
-let theStormlightArchive = new Book("The Way of Kings", "Brandon Sanderson", 1284, false);
-myLibrary.push(harryPotter,theHobbit,theStormlightArchive);
+// let harryPotter = new Book("Harry Potter","J.K. Rowling", 672, false);
+// let theHobbit = new Book("The Hobbit","J.R.R Tolkien", 822, false);
+// let theStormlightArchive = new Book("The Way of Kings", "Brandon Sanderson", 1284, false);
+// myLibrary.push(harryPotter,theHobbit,theStormlightArchive);
+
 displayBooks();
+firstPageLoad();
 
 
 //Prototype Book
@@ -41,13 +44,13 @@ function addBookToLibrary(){
     if(newPages > 9999) newPages = 9999;
     if(newPages[0] == 0) newPages = newPages.substring(1);
     newTitle = document.getElementById("new-title").value;
-    if(newTitle === "Enter a title") newTitle = "Unknown";
+    if(newTitle === "") newTitle = "Unknown";
     if(newTitle.length > titleLimit){
         newTitle = newTitle.substr(0,titleLimit);
     } 
     newTitle = letterCase(newTitle);
     newAuthor = document.getElementById("new-author").value;
-    if(newAuthor === "Enter an author") newAuthor = "Unknown";
+    if(newAuthor === "") newAuthor = "Unknown";
     if(newAuthor.length > authorLimit){
         newAuthor = newAuthor.substr(0,authorLimit);
     } 
@@ -66,6 +69,7 @@ function addBookToLibrary(){
     createReadButtons();
     createDeleteButtons();
     localStorage.setItem('storedBooks',JSON.stringify(myLibrary));
+    if(myLibrary.length === 1) location.reload();
 }
 
 function createForm(){
@@ -74,8 +78,8 @@ function createForm(){
         createFormSection(undefined,undefined,undefined,true);
         createFormSection("Book Title:","Enter a title","new-title");
         createFormSection("Author:","Enter an author","new-author");
-        createFormSection("Number of Pages:","0","new-pages");
-        createFormSection("Book Read?","Have you read it?","new-query-read");
+        createFormSection("Number of Pages:","How many pages?","new-pages");
+        createFormSection("Book Read?","Your personal feedback","new-query-read");
         submit = document.createElement("input");
         submit.setAttribute("type", "submit");
         submit.setAttribute("value", "Submit Book");
@@ -110,7 +114,7 @@ function createFormSection(labelhead,placeholder,id,header){
     label.setAttribute("for",`${labelhead.toLowerCase().replace(/\s+/g, "-")}`)
     input = document.createElement("input");
     input.setAttribute("type", "text");
-    input.setAttribute("value", `${placeholder}`);
+    input.setAttribute("placeholder", `${placeholder}`);
     input.setAttribute("id", `${id}`);
     input.setAttribute("class", "input-fields");
     label.innerHTML = `${labelhead}`;
@@ -205,11 +209,8 @@ function letterCase(str){
          if(str[i] == false){
              str[i+1] = str[i+1].toUpperCase();
          }
-        //  if(str[i] == false && str[i-1] == false){
-        //      str.splice(i,1);
-        //  }
      }
-     return str.join("");
+     return str.join("").trim();
 }
 
 
@@ -224,7 +225,9 @@ function findBiggestTableData(){
 }
 
 function findTableRowHeight(elem){
-    return elem.parentElement.offsetHeight;
+    padding = elem.padding;
+    margin = elem.margin;
+    return elem.parentElement.offsetHeight - padding - margin;
 }
 
 function resetAllActionHeights(){
@@ -232,7 +235,6 @@ function resetAllActionHeights(){
     actionbuttons = Array.from(actionbuttons);
     for(let btn in actionbuttons){
         actionbuttons[btn].style = `height: ${findTableRowHeight(actionbuttons[btn])}`;
-        console.log(getComputedStyle(actionbuttons[btn]).padding);
     }
 }
 
@@ -270,4 +272,26 @@ function retrieveStorage(){
     return myLibrary;
 }
 
+function firstPageLoad(){
+if(myLibrary.length === 0){
+    bookID = 0;
+    formActive = false;
+    // localStorage.removeItem("storedBooks");
+    popup = document.createElement("div");
+    popup.setAttribute("id","popup");
+    body = document.querySelector("body");
+    body.appendChild(popup);
+    popup.innerHTML = `Welcome to my Library!\nPlease take our library card and submit your first book.`
+    storedLibrary = document.querySelector("table");
+    storedLibrary.remove();
+    storedButton = document.getElementById("new-book");
+    storedButton.remove();
+    createForm();
+    tooltiptext = document.createElement("span");
+    tooltiptext.innerHTML = "This button is currently disabled.";
+    hideButton = document.getElementById("hide-button");
+    hideButton.style = "cursor: not-allowed";
+    hideButton.disabled = true;
+}
+};
 
